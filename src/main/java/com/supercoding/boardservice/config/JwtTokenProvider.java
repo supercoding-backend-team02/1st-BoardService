@@ -19,7 +19,7 @@ import java.util.Date;
 @Service
 public class JwtTokenProvider {
     private String secretKey = "supercoding_backend";
-    private long validityInMilliseconds = 3600000; // 토큰의 유효시간(1시간)
+    private long validityInMilliseconds = 3_600_000; // 토큰의 유효시간(1시간)
 
     @Autowired
     private UserDetailsService userDetailsService;

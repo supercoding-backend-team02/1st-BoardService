@@ -10,7 +10,11 @@ public class UserDTO {
     }
 
     public String getEmail() {
-        return this.email = email;
+        return this.email;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
 }
