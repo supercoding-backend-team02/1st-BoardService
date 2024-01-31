@@ -1,29 +1,38 @@
 package com.supercoding.boardservice.config;
 
 
+import com.supercoding.boardservice.properties.DataSourceProperties;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-public class jdbcConfig {
+@Configuration
+@EnableConfigurationProperties({DataSourceProperties.class})
+@RequiredArgsConstructor
+public class JdbcConfig {
+
+    private final DataSourceProperties dataSourceProperties;
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUsername("root");
-        dataSource.setPassword("1234");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/boardservice?useUnicode=true&characterEncoding=utf8");
+        dataSource.setUsername(dataSourceProperties.getUsername());
+        dataSource.setPassword(dataSourceProperties.getPassword());
+        dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+        dataSource.setUrl(dataSourceProperties.getUrl());
         return dataSource;
     }
 
     @Bean
     public JdbcTemplate jdbcTemplate(){ return new JdbcTemplate(dataSource()); }
 
-    @Bean
+    @Bean(name = "tm1")
     public PlatformTransactionManager transactionManager(){
         return new DataSourceTransactionManager(dataSource());
 

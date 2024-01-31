@@ -1,11 +1,13 @@
 package com.supercoding.boardservice.repository.users;
 
+import com.supercoding.boardservice.repository.posts.PostEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,18 +19,23 @@ import java.time.LocalTime;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column
+    private Long user_id;
 
-    @Column(name = "email", length = 50, nullable = false, unique = true)
+    @Column(length = 50, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", length = 50, nullable = false)
+    @Column(length = 200, nullable = false)
     private String password;
 
     @CreatedDate
-    @Column(name = "create_dt", updatable = false)
-    private LocalDateTime createDt;
+    @Column( updatable = false)
+    private LocalDateTime create_dt;
+
+    @PrePersist
+    public void prePersist() {
+        this.create_dt = LocalDateTime.now();
+    }
 
 
 
