@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"com.supercoding.boardservice.repository"},
+        basePackages = {"com.supercoding.boardservice.repository.users"},
         entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "transactionManager"
 )

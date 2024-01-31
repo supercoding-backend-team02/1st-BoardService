@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class LoginController {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -21,7 +21,7 @@ public class LoginController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping("/api/v1/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserDTO userDto) {
         String token = jwtTokenProvider.createToken(userDto.getEmail());
         return ResponseEntity.ok(token);
