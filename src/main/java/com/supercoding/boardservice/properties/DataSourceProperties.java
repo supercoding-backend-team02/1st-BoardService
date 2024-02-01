@@ -3,12 +3,14 @@ package com.supercoding.boardservice.properties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * db 정보 설정
  */
 @Getter
 @Setter
+@Component
 @ConfigurationProperties(prefix = "datasource")
 public class DataSourceProperties {
     private String username = "root";
