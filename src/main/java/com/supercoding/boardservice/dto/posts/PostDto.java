@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PostDto {
     private Integer id;
-    private PostDataDto postDataDto;
+    private PostData postData;
     private String author;
     private LocalDateTime createdAt;
 }

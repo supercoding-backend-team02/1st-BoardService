@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostCreateDto {
-    private PostDataDto postDataDto;
-    private String author;
+public class PostData {
+    private String title;
+    private String content;
 }

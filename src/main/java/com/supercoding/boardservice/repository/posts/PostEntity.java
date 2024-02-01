@@ -1,5 +1,6 @@
 package com.supercoding.boardservice.repository.posts;
 
+import com.supercoding.boardservice.repository.users.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "posts")
 @Builder
 public class PostEntity {
     @Id
@@ -29,10 +31,6 @@ public class PostEntity {
     @Column(name = "write_dt", updatable = false)
     private LocalDateTime writeDt;
 
-    @CreatedDate
-    @Column(name = "create_dt", updatable = false)
-    private LocalDateTime createDt;
-
     @LastModifiedDate
     @Column(name = "update_dt", updatable = false)
     private LocalDateTime updateDt;
@@ -43,4 +41,7 @@ public class PostEntity {
     @Column(name = "user_id")
     private Long userId;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private UserEntity userEntity;
 }
