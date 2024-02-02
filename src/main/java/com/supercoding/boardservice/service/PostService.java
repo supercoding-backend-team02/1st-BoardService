@@ -1,22 +1,19 @@
 package com.supercoding.boardservice.service;
 
-import com.supercoding.boardservice.dto.UserDto;
 import com.supercoding.boardservice.dto.posts.PostCreate;
 import com.supercoding.boardservice.dto.posts.PostDto;
 import com.supercoding.boardservice.repository.posts.PostEntity;
 import com.supercoding.boardservice.repository.posts.PostJpaRepository;
 import com.supercoding.boardservice.repository.users.UserEntity;
 import com.supercoding.boardservice.repository.users.UserRepository;
+import com.supercoding.boardservice.service.exceptions.NotAcceptException;
 import com.supercoding.boardservice.service.exceptions.NotFoundException;
 import com.supercoding.boardservice.service.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,10 +39,21 @@ public class PostService {
         return postEntitiesById.stream().map(PostMapper.INSTANCE::postEntityToPostDto).collect(Collectors.toList());
     }
 
-    public void createPost(PostCreate postCreate) {
+    public Long savePost(PostCreate postCreate) {
+        PostEntity postEntity = PostMapper.INSTANCE.postCreateToPostEntity(postCreate);
+        PostEntity postEntityCreated;
 
+        try {
+            postEntityCreated = postJpaRepository.save(postEntity);
+        } catch (RuntimeException exception) {
+            log.error(exception.getMessage());
+            throw new NotAcceptException("게시글 저장 도중 에러 발생");
+        }
+
+        return postEntityCreated.getPostId();
     }
 
-    public void updatePostById(Integer postId) {
+    public Long updatePostById(Integer postId) {
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package com.supercoding.boardservice.controller;
 
 import com.supercoding.boardservice.dto.posts.PostCreate;
-import com.supercoding.boardservice.dto.posts.PostDto;
 import com.supercoding.boardservice.service.PostService;
 import com.supercoding.boardservice.service.exceptions.NotFoundException;
 import io.swagger.annotations.ApiOperation;
@@ -10,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +20,7 @@ public class PostController {
     @ApiOperation("게시물 전체 조회")
     @GetMapping("/posts")
     public ResponseEntity findAllPost() {
+        // TODO AOP 예외처리
         try {
             return new ResponseEntity(postService.findAllPost(), HttpStatus.OK);
         } catch (NotFoundException nfe) {
@@ -33,8 +31,14 @@ public class PostController {
 
     @ApiOperation("게시물 생성")
     @PostMapping("/posts")
-    public void createPost(@RequestBody PostCreate postCreate) {
-        postService.createPost(postCreate);
+    public ResponseEntity createPost(@RequestBody PostCreate postCreate) {
+        try {
+            Long createPostId = postService.savePost(postCreate);
+            return new ResponseEntity("게시글 ID: " + String.valueOf(createPostId) + " 생성 완료", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ApiOperation("작성자 이메일을 통해 특정 게시물들을 검색")
@@ -50,7 +54,12 @@ public class PostController {
 
     @ApiOperation("게시물 수정")
     @PutMapping("/posts/{post_id}")
-    public void updatePostById(@PathVariable("post_id") Integer postId) {
-        postService.updatePostById(postId);
+    public ResponseEntity updatePostById(@PathVariable("post_id") Integer postId) {
+        try {
+            return new ResponseEntity(postService.updatePostById(postId), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostCreate {
-    private PostData postData;
-    private String author;
+    private String title;
+    private String content;
+    private String userId;
 }
