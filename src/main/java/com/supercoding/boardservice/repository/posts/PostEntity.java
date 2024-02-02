@@ -1,5 +1,6 @@
 package com.supercoding.boardservice.repository.posts;
 
+import com.supercoding.boardservice.repository.users.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "posts")
 @Builder
 public class PostEntity {
     @Id
@@ -22,25 +24,24 @@ public class PostEntity {
     @Column(name = "title", length = 50, nullable = false)
     private String title;
 
-    @Column(name = "body", nullable = false)
+    @Column(name = "body", length = 50, nullable = false)
     private String body;
 
     @CreatedDate
-    @Column(name = "write_dt", updatable = false)
+    @Column(name = "write_dt", updatable = false, nullable = false)
     private LocalDateTime writeDt;
-
-    @CreatedDate
-    @Column(name = "create_dt", updatable = false)
-    private LocalDateTime createDt;
 
     @LastModifiedDate
     @Column(name = "update_dt", updatable = false)
     private LocalDateTime updateDt;
 
-    @Column(name = "cnt_like")
+    @Column(name = "cnt_like", nullable = false, columnDefinition = "DEFAULT 0 CHECK(cnt_like) >= 0")
     private Integer cntLike;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private UserEntity userEntity;
 }

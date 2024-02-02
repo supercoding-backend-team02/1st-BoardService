@@ -16,7 +16,9 @@ import java.util.Map;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"com.supercoding.boardservice.repository.users"},
+        basePackages = {
+                "com.supercoding.boardservice.repository"
+        },
         entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "transactionManager"
 )
@@ -25,7 +27,7 @@ public class JpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Qualifier("dataSource")DataSource datasource){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(datasource);
-        em.setPackagesToScan("com.supercoding.boardservice.repository.users");
+        em.setPackagesToScan("com.supercoding.boardservice.repository");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
