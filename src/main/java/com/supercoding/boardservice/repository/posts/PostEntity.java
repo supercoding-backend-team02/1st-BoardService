@@ -1,5 +1,6 @@
 package com.supercoding.boardservice.repository.posts;
 
+import com.supercoding.boardservice.dto.posts.PostUpdate;
 import com.supercoding.boardservice.repository.users.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "posts")
 @Builder
@@ -28,11 +30,11 @@ public class PostEntity {
     private String body;
 
     @CreatedDate
-    @Column(name = "write_dt", updatable = false, nullable = false)
+    @Column(name = "write_dt", updatable = false)
     private LocalDateTime writeDt;
 
     @LastModifiedDate
-    @Column(name = "update_dt", updatable = false)
+    @Column(name = "update_dt")
     private LocalDateTime updateDt;
 
     @Column(name = "cnt_like", nullable = false, columnDefinition = "DEFAULT 0 CHECK(cnt_like) >= 0")
@@ -41,7 +43,16 @@ public class PostEntity {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private UserEntity userEntity;
+    // writeDt 현재 시간으로 초기화
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.writeDt = now;
+    }
+
+    public void setPostEntity(PostUpdate postUpdate) {
+        this.title = postUpdate.getTitle();
+        this.body = postUpdate.getContent();
+        this.updateDt = LocalDateTime.now();
+    }
 }

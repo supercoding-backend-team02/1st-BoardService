@@ -1,6 +1,7 @@
 package com.supercoding.boardservice.controller;
 
 import com.supercoding.boardservice.dto.posts.PostCreate;
+import com.supercoding.boardservice.dto.posts.PostUpdate;
 import com.supercoding.boardservice.service.PostService;
 import com.supercoding.boardservice.service.exceptions.NotFoundException;
 import io.swagger.annotations.ApiOperation;
@@ -54,9 +55,9 @@ public class PostController {
 
     @ApiOperation("게시물 수정")
     @PutMapping("/posts/{post_id}")
-    public ResponseEntity updatePostById(@PathVariable("post_id") Integer postId) {
+    public ResponseEntity updatePostById(@PathVariable("post_id") String postId, @RequestBody PostUpdate postUpdate) {
         try {
-            return new ResponseEntity(postService.updatePostById(postId), HttpStatus.OK);
+            return new ResponseEntity(postService.updatePost(postId, postUpdate), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
