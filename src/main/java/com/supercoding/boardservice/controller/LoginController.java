@@ -15,6 +15,9 @@ import java.util.Map;
 public class LoginController {
 
     private final UserService userService;
+    /**
+     * 로그인
+     */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody UserDto userDto) {
         String token = userService.login(userDto);

@@ -60,7 +60,13 @@ public class UserService {
         return true;
     }
 
-    public boolean logout() {
-        return true;
+    public boolean logout(String token) {
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            // 토큰이 유효하다면, 해당 토큰을 무효화하도록 설정
+            // 여기에서는 단순히 토큰을 무효화한다고 가정
+            // 실제로는 무효화된 토큰을 어떻게 처리할지에 대한 방법을 설정해야 함
+            return true;
+        }
+        return false;
     }
 }
