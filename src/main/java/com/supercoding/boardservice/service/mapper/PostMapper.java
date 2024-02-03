@@ -22,19 +22,23 @@ public interface PostMapper {
     @Mapping(target = "title", source = "title")
     @Mapping(target = "content", source = "body")
     @Mapping(target = "author", source = "userId")
-    @Mapping(target = "createdAt", source = "writeDt", qualifiedByName = "convert")
+//    @Mapping(target = "createdAt", source = "writeDt", qualifiedByName = "convert")
+    @Mapping(target = "createdAt", source = "writeDt")
     PostDto postEntityToPostDto(PostEntity postEntity);
 
     @Mapping(target = "postId", source = "id")
     @Mapping(target = "title", source = "title")
     @Mapping(target = "body", source = "content")
     @Mapping(target = "userId", source = "author")
-    @Mapping(target = "writeDt", source = "createdAt", qualifiedByName = "convert")
+//    @Mapping(target = "writeDt", source = "createdAt", qualifiedByName = "convert")
+    @Mapping(target = "writeDt", source = "createdAt")
     PostEntity postDtoTopostEntity(PostDto postDto);
 
     @Mapping(target = "body", source = "postCreate.content")
-    @Mapping(target = "writeDt", ignore = true, qualifiedByName = "convert")
-    @Mapping(target = "updateDt", ignore = true, qualifiedByName = "convert")
+//    @Mapping(target = "writeDt", ignore = true, qualifiedByName = "convert")
+//    @Mapping(target = "updateDt", ignore = true, qualifiedByName = "convert")
+    @Mapping(target = "writeDt", ignore = true)
+    @Mapping(target = "updateDt", ignore = true)
     @Mapping(target = "cntLike", constant = "0")
     PostEntity postCreateToPostEntity(String id, PostCreate postCreate);
 
