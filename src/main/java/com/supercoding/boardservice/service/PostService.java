@@ -2,6 +2,7 @@ package com.supercoding.boardservice.service;
 
 import com.supercoding.boardservice.dto.posts.PostCreate;
 import com.supercoding.boardservice.dto.posts.PostDto;
+import com.supercoding.boardservice.dto.posts.PostUpdate;
 import com.supercoding.boardservice.repository.posts.PostEntity;
 import com.supercoding.boardservice.repository.posts.PostJpaRepository;
 import com.supercoding.boardservice.repository.users.UserEntity;
@@ -12,6 +13,7 @@ import com.supercoding.boardservice.service.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +42,8 @@ public class PostService {
     }
 
     public Long savePost(PostCreate postCreate) {
-        PostEntity postEntity = PostMapper.INSTANCE.postCreateToPostEntity(postCreate);
+        PostEntity postEntity = PostMapper.INSTANCE.postCreateToPostEntity(null, postCreate);
+        log.info("postEntity : {}", postEntity);
         PostEntity postEntityCreated;
 
         try {
@@ -53,7 +56,15 @@ public class PostService {
         return postEntityCreated.getPostId();
     }
 
-    public Long updatePostById(Integer postId) {
-        return null;
+    @Transactional(transactionManager = "transactionManager")
+    public PostEntity updatePost(String postId, PostUpdate postUpdate) {
+        Long postIdLong = Long.valueOf(postId);
+
+        PostEntity postEntityUpdated = postJpaRepository.findById(postIdLong)
+                .orElseThrow(() -> new NotFoundException("게시글 id " + String.valueOf(postIdLong) + "가 작성한 게시글은 존재하지 않습니다."));
+
+        postEntityUpdated.setPostEntity(postUpdate);
+        log.info("postEntityUpdated : {}", postEntityUpdated);
+        return postEntityUpdated;
     }
 }
